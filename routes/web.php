@@ -51,7 +51,11 @@ Route::group(['middleware' => 'auth:admin'],function () {
 
     Route::get('/dashboard/export', 'AdminController@export')->name('export');
     });
-
+    Route::get('logout', function () {
+        Session()->flush();
+        auth()->logout();
+        return Redirect::to('/login/admin');
+    })->name('logout');
     Route::group(['middleware' => 'auth:employee'], function () {
         Auth::routes();
         Route::get('/employee/dashboard', 'AdminController@employeeDashboard')->name('employeeDashboard');

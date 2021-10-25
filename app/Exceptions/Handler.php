@@ -19,6 +19,6 @@ class Handler extends ExceptionHandler
         if ($request->is('employee') || $request->is('employee/*')) {
             return redirect()->guest('/login/employee');
         }
-        return redirect()->guest(route('login'));
+        return redirect()->guest(route('adminLogin'));
     }
 }

@@ -12,8 +12,13 @@ class EmployeeController extends Controller
 {
     public function listEmployee()
     {
-        $employees = Employee::paginate(1);
+        $employees = Employee::paginate(10);
         return view('admin.employee.index',compact('employees'));
+    }
+    public function eListEmployee()
+    {
+        $employees = Employee::paginate(10);
+        return view('employee.employee.index',compact('employees'));
     }
     public function createEmployee()
     {

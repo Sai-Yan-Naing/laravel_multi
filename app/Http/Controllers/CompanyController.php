@@ -2,40 +2,80 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
-    protected function validator(array $data)
+    public function listCompany()
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'address' => ['required', 'string', 'min:8'],
+        $companies = Company::paginate(10);
+        return view('admin.company.index',compact('companies'));
+    }
+
+    public function eListCompany()
+    {
+        $companies = Company::paginate(10);
+        return view('employee.company.index',compact('companies'));
+    }
+
+    public function createCompany()
+    {
+        return view('admin.company.create');
+    }
+    public function storeCompany(Request $request)
+    {
+        $request->validate([
+            'name'              => 'required|string|max:255',
+            'email'             => 'required|string|email|max:255|unique:companies',
+            'address'            => 'required|string',
         ]);
-    }
-    public function index()
-    {
-        return view('company.index');
-    }
-    public function create()
-    {
-        return view('company.create');
-    }
-    public function store(Request $request)
-    {
 
+        $company = Company::create([
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'address'   => $request->address,
+        ]);
+        return redirect()->route('listCompany');
     }
 
-    public function edit($id)
+    public function editCompany($id)
     {
-        return view('company.edit');
+        $company = Company::find($id);
+        return view('admin.company.edit',compact('company'));
     }
 
-    public function update($id)
+    public function updateCompany(Request $request,$id)
     {
+        $company = Company::findOrFail($id);
+        $request->validate([
+            'name'              => 'required|string|max:255',
+            'email'             => ['required',
+                                    'string','email','max:255',
+                                    Rule::unique('companies')->ignore($company->id,'id')
+                                ],
+            'address'            => 'required|string',
+        ]);
 
+        $company->update([
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'address'   => $request->address,
+        ]);
+        return redirect()->route('listCompany');
+    }
+    public function deleteCompany($id)
+    {
+        $company = Company::findOrFail($id);
+        $company->employees()->delete();
+        $company->delete();
+        return redirect()->route('listCompany');
+    }
+
+    public function export($filter='')
+    {
+        // return $filter;
+        return Excel::download(new EmployeeExport($filter), 'employee.csv');
     }
 }

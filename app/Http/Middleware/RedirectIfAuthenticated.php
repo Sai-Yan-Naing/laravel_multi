@@ -10,10 +10,10 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if ($guard == "admin" && Auth::guard($guard)->check()) {
-            return redirect('/admin');
+            return redirect('/dashboard');
         }
         if ($guard == "employee" && Auth::guard($guard)->check()) {
-            return redirect('/employee');
+            return redirect('/dashboard');
         }
         if (Auth::guard($guard)->check()) {
             return redirect('/home');

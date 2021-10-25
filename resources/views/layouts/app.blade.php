@@ -41,7 +41,10 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('adminLogin') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('adminLoginForm') }}">{{ __('Admin Login') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('employeeLoginForm') }}">{{ __('Employee Login') }}</a>
                             </li>
                         @else
                             <li class="nav-item dropdown">

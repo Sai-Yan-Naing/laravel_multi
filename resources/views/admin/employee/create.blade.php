@@ -90,7 +90,7 @@
                                     <div class="form-group mb-2">
                                         <label class="mb-2" for="phone">Phone:</label>
                                         <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" placeholder="Enter phone" name="phone" value="{{ old('phone') }}" autocomplete="phone" autofocus>
-                                        @error('email')
+                                        @error('phone')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>

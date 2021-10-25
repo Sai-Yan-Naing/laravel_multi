@@ -71,8 +71,8 @@ class LoginController extends Controller
     public function employeeLogin(Request $request)
     {
         $this->validate($request, [
-            'email'   => 'required|email',
-            'password' => 'required|min:6'
+            'email'   => 'required|email|exists:users',
+            'password' => 'required|min:6|exists:users'
         ]);
 
         if (Auth::guard('employee')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {

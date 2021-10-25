@@ -26,11 +26,17 @@ Route::post('/login/employee', 'Auth\LoginController@employeeLogin')->name('empl
 Route::post('/register/admin', 'Auth\RegisterController@createAdmin')->name('createAdmin');
 Route::post('/register/employee', 'Auth\RegisterController@createEmployee')->name('createEmployee');
 
-Route::view('/home', 'home')->middleware('auth');
-Route::view('/admin', 'admin');
-Route::view('/employee', 'employee');
+Route::group(['middleware' => 'auth:employee'], function () {
+    Auth::routes();
+    Route::view('/employee', 'employee');
+});
+// Route::group(['middleware' => 'auth:admin'], function () {
+//     Auth::routes();
+//     Route::view('/admin', 'admin');
+// });
 
-Route::prefix('admin')->group(function () {
+Route::group(['middleware' => 'auth:admin'],function () {
+    Auth::routes();
     Route::get('/dashboard', 'AdminController@index')->name('dashboard');
     Route::get('/company', 'AdminController@listCompany')->name('listCompany');
     Route::get('/company/create', 'AdminController@createCompany')->name('createCompany');

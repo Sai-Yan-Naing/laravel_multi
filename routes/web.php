@@ -15,9 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 // Route::view('/', 'adminLoginForm');
 // Route::view('/home', 'welcome');
-// Auth::routes();
-Route::get('/', 'Auth\LoginController@showAdminLoginForm')->name('adminLoginForm');
-Route::get('/home', 'Auth\LoginController@showAdminLoginForm')->name('adminLoginForm');
+Route::get('/', function () {
+    return redirect()->route('adminLoginForm');
+});
+Auth::routes();
+Route::get('/home', function () {
+    return redirect()->route('adminLoginForm');
+});
+Auth::routes();
 Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm')->name('adminLoginForm');
 Route::get('/login/employee', 'Auth\LoginController@showEmployeeLoginForm')->name('employeeLoginForm');
 // Route::get('/register/admin', 'Auth\RegisterController@showAdminRegisterForm');
@@ -29,13 +34,14 @@ Route::post('/register/admin', 'Auth\RegisterController@createAdmin')->name('cre
 Route::post('/register/employee', 'Auth\RegisterController@createEmployee')->name('createEmployee');
 
 
-// Route::group(['middleware' => 'auth:admin'], function () {
-//     Auth::routes();
-//     Route::view('/admin', 'admin');
-// });
+Route::get('logout', function () {
+    Session()->flush();
+    auth()->logout();
+    return Redirect::to('/login/admin');
+})->name('logout');
 
 Route::group(['middleware' => 'auth:admin'],function () {
-    Auth::routes();
+    // Auth::routes();
     Route::get('/dashboard', 'AdminController@index')->name('dashboard');
     Route::get('/company', 'CompanyController@listCompany')->name('listCompany');
     Route::get('/company/create', 'CompanyController@createCompany')->name('createCompany');
@@ -53,8 +59,9 @@ Route::group(['middleware' => 'auth:admin'],function () {
 
     Route::get('/dashboard/export', 'AdminController@export')->name('export');
     });
+
     Route::group(['middleware' => 'auth:employee'], function () {
-        Auth::routes();
+        // Auth::routes();
         Route::get('/employee/dashboard', 'AdminController@employeeDashboard')->name('employeeDashboard');
         Route::get('/company-list', 'CompanyController@eListCompany')->name('eListCompany');
         Route::get('/employee-list', 'EmployeeController@eListEmployee')->name('eListEmployee');

@@ -99,8 +99,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group mb-2">
-                                        <label class="mb-2" for="department">Company:</label>
+                                        <label class="mb-2" for="company_id">Company:</label>
                                         <select class="form-control" name="company_id">
+                                            <option value="">Select Company</option>
                                                 @foreach($companies as $company)
                                                     <option value="{{$company->id}}"
                                                         @if ($company->id == old('company_id'))
@@ -109,6 +110,11 @@
                                                         >{{$company->name}}</option>
                                                 @endForeach
                                          </select>
+                                         @error('company_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>

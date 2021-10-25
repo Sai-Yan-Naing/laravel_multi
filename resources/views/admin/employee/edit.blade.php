@@ -111,6 +111,12 @@
                                                     >{{$company->name}}</option>
                                                 @endForeach
                                          </select>
+                                         
+                                         @error('company_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>

@@ -72,10 +72,4 @@ class CompanyController extends Controller
         $company->delete();
         return redirect()->route('listCompany');
     }
-
-    public function export($filter='')
-    {
-        // return $filter;
-        return Excel::download(new EmployeeExport($filter), 'employee.csv');
-    }
 }

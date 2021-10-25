@@ -50,5 +50,10 @@ class AdminController extends Controller
         // }
         return view('employee.dashboard.index',compact('employees','filter'));
     }
+    public function export($filter='')
+    {
+        // return $filter;
+        return Excel::download(new EmployeeExport($filter), 'employee.csv');
+    }
 
 }

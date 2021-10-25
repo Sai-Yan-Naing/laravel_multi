@@ -51,14 +51,14 @@ class LoginController extends Controller
 
     public function adminLogin(Request $request)
     {
-
         $this->validate($request, [
             'email'   => 'required|email',
             'password' => 'required|min:6'
         ]);
 
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
-            return redirect()->route('dashboard');
+
+            return redirect()->intended('/dashboard');
         }
         return back()->withInput($request->only('email', 'remember'));
     }
@@ -76,7 +76,8 @@ class LoginController extends Controller
         ]);
 
         if (Auth::guard('employee')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
-            return redirect()->route('employeeDashboard');
+
+            return redirect()->intended('/employee/dashboard');
         }
         return back()->withInput($request->only('email', 'remember'));
     }

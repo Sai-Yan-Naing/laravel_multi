@@ -34,6 +34,7 @@ class EmployeeController extends Controller
             'staffid'              => 'required|string|max:255',
             'email'             => 'required|string|email|max:255|unique:employees',
             'phone'              => 'required|string|max:255',
+            'company_id'              => 'required',
             'department'              => 'required|string|max:255',
             'password'          => 'required|string|min:8',
             'address'            => 'required|string',
@@ -72,6 +73,7 @@ class EmployeeController extends Controller
                                     Rule::unique('employees')->ignore($employee->id,'id')
                                 ],
             'phone'              => 'required|string|max:255',
+            'company_id'              => 'required',
             'department'              => 'required|string|max:255',
             'password'          => 'required|string|min:8',
             'address'            => 'required|string',

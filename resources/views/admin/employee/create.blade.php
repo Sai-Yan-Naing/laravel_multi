@@ -101,7 +101,7 @@
                                     <div class="form-group mb-2">
                                         <label class="mb-2" for="company_id">Company:</label>
                                         <select class="form-control" name="company_id">
-                                            <option value="">Select Company</option>
+                                            {{-- <option value="">Select Company</option> --}}
                                                 @foreach($companies as $company)
                                                     <option value="{{$company->id}}"
                                                         @if ($company->id == old('company_id'))

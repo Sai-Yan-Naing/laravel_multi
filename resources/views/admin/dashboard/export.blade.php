@@ -1,6 +1,6 @@
 <table class="table table-bordered">
     <tr>
-      <th>StaffID {{$filter}}</th>
+      <th>StaffID</th>
       <th>Name</th>
       <th>Email</th>
       <th>Company</th>

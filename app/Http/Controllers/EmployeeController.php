@@ -31,8 +31,20 @@ class EmployeeController extends Controller
         $request->validate([
             'first_name'              => 'required|string|max:255',
             'last_name'              => 'required|string|max:255',
-            'staffid'              => 'required|string|max:255',
-            'email'             => 'required|string|email|max:255|unique:employees',
+            'staffid'              => [
+                'required','string','max:255',
+                Rule::unique('employees','staffid')
+                ->where(function ($query) use ($request) {
+                    $query->where('company_id', $request->company_id);
+                }),
+            ],
+            'email'             => [
+                'required','string','max:255','email',
+                Rule::unique('employees','email')
+                ->where(function ($query) use ($request) {
+                    $query->where('company_id', $request->company_id);
+                }),
+            ],
             'phone'              => 'required|string|max:255',
             'company_id'              => 'required',
             'department'              => 'required|string|max:255',
@@ -63,15 +75,26 @@ class EmployeeController extends Controller
     public function updateEmployee(Request $request,$id)
     {
         $employee = Employee::findOrFail($id);
-        // dd($request->all());
+        // dd($request->company_id);
         $request->validate([
             'first_name'              => 'required|string|max:255',
             'last_name'              => 'required|string|max:255',
-            'staffid'              => 'required|string|max:255',
-            'email'             => [
-                                    'required','string','email','max:255',
-                                    Rule::unique('employees')->ignore($employee->id,'id')
+            'staffid'              => [
+                                    'required','string','max:255',
+                                    Rule::unique('employees','staffid')
+                                    ->where(function ($query) use ($request) {
+                                        $query->where('company_id', $request->company_id);
+                                    })
+                                    ->ignore($employee->id,'id'),
                                 ],
+            'email'             => [
+                                        'required','string','max:255','email',
+                                        Rule::unique('employees','email')
+                                        ->where(function ($query) use ($request) {
+                                            $query->where('company_id', $request->company_id);
+                                        })
+                                        ->ignore($employee->id,'id'),
+                                    ],
             'phone'              => 'required|string|max:255',
             'company_id'              => 'required',
             'department'              => 'required|string|max:255',

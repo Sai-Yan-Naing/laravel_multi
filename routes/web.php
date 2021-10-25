@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('adminLoginForm');
 });
-Auth::routes();
 Route::get('/home', function () {
     return redirect()->route('adminLoginForm');
 });
@@ -57,6 +56,8 @@ Route::group(['middleware' => 'auth:admin'],function () {
     Route::put('/employee/{id}/update', 'EmployeeController@updateEmployee')->name('updateEmployee');
     Route::delete('/employee/{id}/delete', 'EmployeeController@deleteEmployee')->name('destoryEmployee');
 
+    // Route::post('/admin/logout','Auth\LoginController@logoutAdmin')->name('logoutAdmin');
+
     Route::get('/dashboard/export', 'AdminController@export')->name('export');
     });
 
@@ -65,4 +66,5 @@ Route::group(['middleware' => 'auth:admin'],function () {
         Route::get('/employee/dashboard', 'AdminController@employeeDashboard')->name('employeeDashboard');
         Route::get('/company-list', 'CompanyController@eListCompany')->name('eListCompany');
         Route::get('/employee-list', 'EmployeeController@eListEmployee')->name('eListEmployee');
+        // Route::post('/employee/logout','Auth\LoginController@logoutEmployee')->name('logoutEmployee');
     });

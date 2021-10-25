@@ -7,7 +7,6 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
 
-
 class LoginController extends Controller
 {
 
@@ -60,7 +59,10 @@ class LoginController extends Controller
 
             return redirect()->intended('/dashboard');
         }
-        return back()->withInput($request->only('email', 'remember'));
+        return back()->withInput($request->only('email', 'remember'))
+        ->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
 
      public function showEmployeeLoginForm()
@@ -75,18 +77,9 @@ class LoginController extends Controller
             'password' => 'required|min:6'
         ]);
 
-        if (!Auth::attempt([
-            'email' => $request['email'],
-            'password' => $request['password'] ])) {
-            return redirect()->back()->with(['fail' => 'invalid email or password']);
+        if (Auth::guard('employee')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+            return redirect()->intended('/employee/dashboard');
         }
-
-        return redirect()->route('employeeDashboard');
-
-        // if (Auth::guard('employee')->attempt(['email' => $request->email, 'password' => $request->password])) {
-
-        //     return redirect()->intended('/employee/dashboard');
-        // }
-        // return back()->with(['fail' => 'invalid username or password']);
+        return back()->withInput($request->only('email', 'remember'));
     }
 }

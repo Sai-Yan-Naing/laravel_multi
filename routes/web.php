@@ -13,13 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
-Route::view('/home', 'welcome');
-Auth::routes();
+// Route::view('/', 'adminLoginForm');
+// Route::view('/home', 'welcome');
+// Auth::routes();
+Route::get('/', 'Auth\LoginController@showAdminLoginForm')->name('adminLoginForm');
+Route::get('/home', 'Auth\LoginController@showAdminLoginForm')->name('adminLoginForm');
 Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm')->name('adminLoginForm');
 Route::get('/login/employee', 'Auth\LoginController@showEmployeeLoginForm')->name('employeeLoginForm');
-Route::get('/register/admin', 'Auth\RegisterController@showAdminRegisterForm');
-Route::get('/register/employee', 'Auth\RegisterController@showEmployeeRegisterForm');
+// Route::get('/register/admin', 'Auth\RegisterController@showAdminRegisterForm');
+// Route::get('/register/employee', 'Auth\RegisterController@showEmployeeRegisterForm');
 
 Route::post('/login/admin', 'Auth\LoginController@adminLogin')->name('adminLogin');
 Route::post('/login/employee', 'Auth\LoginController@employeeLogin')->name('employeeLogin');
@@ -51,11 +53,6 @@ Route::group(['middleware' => 'auth:admin'],function () {
 
     Route::get('/dashboard/export', 'AdminController@export')->name('export');
     });
-    Route::get('logout', function () {
-        Session()->flush();
-        auth()->logout();
-        return Redirect::to('/login/admin');
-    })->name('logout');
     Route::group(['middleware' => 'auth:employee'], function () {
         Auth::routes();
         Route::get('/employee/dashboard', 'AdminController@employeeDashboard')->name('employeeDashboard');

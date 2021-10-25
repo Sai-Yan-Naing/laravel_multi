@@ -34,7 +34,7 @@
                 <!-- Navbar Search-->
                 <div class="d-flex mb-2">
                     <div></div>
-                    <a href="{{ route('export',$filter) }}" class="btn btn-success ml-auto mr-2">Export CSV</a>
+                    <a href="/dashboard/export?filter={{$filter}}" class="btn btn-success ml-auto mr-2">Export CSV</a>
                     <form action="{{ route('dashboard') }}" method="get">
                         <div class="input-group">
                             <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" name="filter" value="{{$filter}}" />

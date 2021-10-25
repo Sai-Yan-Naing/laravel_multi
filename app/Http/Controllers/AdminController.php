@@ -19,7 +19,8 @@ class AdminController extends Controller
         // if($filter != null)
         // {
             $employees = Employee::
-            where ( 'first_name', 'LIKE', '%' . $filter . '%' )
+            where ( 'staffid', 'LIKE', '%' . $filter . '%' )
+            ->orwhere ( 'first_name', 'LIKE', '%' . $filter . '%' )
             ->orwhere ( 'last_name', 'LIKE', '%' . $filter . '%' )
             ->orwhere ( 'department', 'LIKE', '%' . $filter . '%' )
             ->orwhereHas('company', function ($query) use ($request) {
@@ -38,7 +39,8 @@ class AdminController extends Controller
         // if($filter != null)
         // {
             $employees = Employee::
-            where ( 'first_name', 'LIKE', '%' . $filter . '%' )
+            where ( 'staffid', 'LIKE', '%' . $filter . '%' )
+            ->orwhere ( 'first_name', 'LIKE', '%' . $filter . '%' )
             ->orwhere ( 'last_name', 'LIKE', '%' . $filter . '%' )
             ->orwhere ( 'department', 'LIKE', '%' . $filter . '%' )
             ->orwhereHas('company', function ($query) use ($request) {
@@ -50,10 +52,10 @@ class AdminController extends Controller
         // }
         return view('employee.dashboard.index',compact('employees','filter'));
     }
-    public function export($filter='')
+    public function export(Request $request)
     {
-        // return $filter;
-        return Excel::download(new EmployeeExport($filter), 'employee.csv');
+        // return $request->filter;
+        return Excel::download(new EmployeeExport($request->filter), 'employee.csv');
     }
 
 }

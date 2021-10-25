@@ -75,10 +75,18 @@ class LoginController extends Controller
             'password' => 'required|min:6'
         ]);
 
-        if (Auth::guard('employee')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
-
-            return redirect()->intended('/employee/dashboard');
+        if (!Auth::attempt([
+            'email' => $request['email'],
+            'password' => $request['password'] ])) {
+            return redirect()->back()->with(['fail' => 'invalid email or password']);
         }
-        return back()->withInput($request->only('email', 'remember'));
+
+        return redirect()->route('employeeDashboard');
+
+        // if (Auth::guard('employee')->attempt(['email' => $request->email, 'password' => $request->password])) {
+
+        //     return redirect()->intended('/employee/dashboard');
+        // }
+        // return back()->with(['fail' => 'invalid username or password']);
     }
 }

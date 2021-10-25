@@ -56,7 +56,7 @@
                             </div>
                             <div class="form-group mb-2">
                                 <label class="mb-2" for="address">Address:</label>
-                                <textarea type="text" class="form-control @error('address') is-invalid @enderror" id="address" placeholder="Enter address" name="address" value="{{ old('address',$company->address) }}" autocomplete="address" autofocus></textarea>
+                                <textarea type="text" class="form-control @error('address') is-invalid @enderror" id="address" placeholder="Enter address" name="address" autocomplete="address" autofocus>{{ old('address',$company->address) }}</textarea>
                                 @error('address')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

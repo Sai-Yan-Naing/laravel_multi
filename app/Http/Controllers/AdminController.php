@@ -6,6 +6,7 @@ use App\Company;
 use App\Employee;
 use App\Exports\EmployeeExport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -20,8 +21,9 @@ class AdminController extends Controller
         // {
             $employees = Employee::
             where ( 'staffid', 'LIKE', '%' . $filter . '%' )
-            ->orwhere ( 'first_name', 'LIKE', '%' . $filter . '%' )
-            ->orwhere ( 'last_name', 'LIKE', '%' . $filter . '%' )
+            ->orwhere ( function($query) use ($filter) {
+                $query->Where(DB::raw('CONCAT(first_name," ",last_name)'), 'LIKE', '%' . $filter . '%');
+            } )
             ->orwhere ( 'department', 'LIKE', '%' . $filter . '%' )
             ->orwhereHas('company', function ($query) use ($request) {
                 $query->where('name', 'like', "%{$request->filter}%");
@@ -40,8 +42,9 @@ class AdminController extends Controller
         // {
             $employees = Employee::
             where ( 'staffid', 'LIKE', '%' . $filter . '%' )
-            ->orwhere ( 'first_name', 'LIKE', '%' . $filter . '%' )
-            ->orwhere ( 'last_name', 'LIKE', '%' . $filter . '%' )
+            ->orwhere ( function($query) use ($filter) {
+                $query->Where(DB::raw('CONCAT(first_name," ",last_name)'), 'LIKE', '%' . $filter . '%');
+            } )
             ->orwhere ( 'department', 'LIKE', '%' . $filter . '%' )
             ->orwhereHas('company', function ($query) use ($request) {
                 $query->where('name', 'like', "%{$request->filter}%");

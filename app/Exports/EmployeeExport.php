@@ -6,6 +6,8 @@ use App\Employee;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 class EmployeeExport implements FromView
 {
     /**
@@ -20,9 +22,10 @@ class EmployeeExport implements FromView
     {
         $filter = $this->filter;
         $employees = Employee::
-
         where ( 'staffid', 'LIKE', '%' . $filter . '%' )
-        ->orwhere ( 'first_name', 'LIKE', '%' . $filter . '%' )
+        ->orwhere ( function($query) use ($filter) {
+            $query->Where(DB::raw('CONCAT(first_name," ",last_name)'), 'LIKE', '%' . $filter . '%');
+        } )
         ->orwhere ( 'last_name', 'LIKE', '%' . $filter . '%' )
         ->orwhere ( 'department', 'LIKE', '%' . $filter . '%' )
         ->orwhereHas('company', function ($query) use ($filter) {

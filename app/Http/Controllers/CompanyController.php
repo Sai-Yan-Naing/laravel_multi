@@ -27,7 +27,7 @@ class CompanyController extends Controller
     public function storeCompany(Request $request)
     {
         $request->validate([
-            'name'              => 'required|string|max:255',
+            'name'              => 'required|string|max:255|unique:companies',
             'email'             => 'required|string|email|max:255|unique:companies',
             'address'            => 'required|string',
         ]);
@@ -50,7 +50,10 @@ class CompanyController extends Controller
     {
         $company = Company::findOrFail($id);
         $request->validate([
-            'name'              => 'required|string|max:255',
+                'name'              => ['required',
+                                    'string','max:255',
+                                    Rule::unique('companies')->ignore($company->id,'id')
+                                    ],
             'email'             => ['required',
                                     'string','email','max:255',
                                     Rule::unique('companies')->ignore($company->id,'id')

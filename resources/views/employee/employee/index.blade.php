@@ -1,4 +1,4 @@
-@extends('admin.header')
+@extends('employee.header')
 @section('content')
 <div id="layoutSidenav">
     <div id="layoutSidenav_nav">

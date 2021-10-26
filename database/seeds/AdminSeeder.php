@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 use App\Admin;
-use Illuminate\Support\Facades\DB;
 class AdminSeeder extends Seeder
 {
     /**
@@ -10,22 +9,12 @@ class AdminSeeder extends Seeder
      *
      * @return void
      */
-    // public function run()
-    // {
-    //     Admin::create([
-    //         'name' => 'Admin',
-    //         'email' => 'admin@gmail.com',
-    //         'password' => bcrypt('welcome123!'),
-    //     ]);
-    // }
     public function run()
     {
-        $data = [
-            ['name' => 'Admin',
+        Admin::create([
+            'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('welcome123!'),]
-
-        ];
-        DB::table('admins')->insert($data);
+            'password' => bcrypt('welcome123!'),
+        ]);
     }
 }

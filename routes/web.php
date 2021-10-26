@@ -55,6 +55,9 @@ Route::group(['middleware' => 'auth:admin'],function () {
     Route::post('/employee/store', 'EmployeeController@storeEmployee')->name('storeEmployee');
     Route::put('/employee/{id}/update', 'EmployeeController@updateEmployee')->name('updateEmployee');
     Route::delete('/employee/{id}/delete', 'EmployeeController@deleteEmployee')->name('destoryEmployee');
+    Route::delete('/adminemployee/{id}/delete', 'AdminController@deleteEmployee')->name('AdmindestoryEmployee');
+    Route::get('/adminemployee/{id}/edit', 'AdminController@editEmployee')->name('adminEditEmployee');
+    Route::put('/adminemployee/{id}/update', 'AdminController@updateEmployee')->name('adminUpdateEmployee');
 
     // Route::post('/admin/logout','Auth\LoginController@logoutAdmin')->name('logoutAdmin');
 

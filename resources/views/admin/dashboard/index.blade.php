@@ -65,8 +65,8 @@
                                 <td>{{$employee->address}}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <a href="{{ route('editEmployee',$employee->id) }}" class="btn btn-warning mr-2 text-white">Edit</a>
-                                        <form action="{{ route('destoryEmployee',$employee->id) }}" method="POST">
+                                        <a href="{{ route('adminEditEmployee',$employee->id) }}" class="btn btn-warning mr-2 text-white">Edit</a>
+                                        <form action="{{ route('AdmindestoryEmployee',$employee->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button onclick="return confirm('Are you sure you want to delete Employee')" class="btn btn-danger">Delete</button>

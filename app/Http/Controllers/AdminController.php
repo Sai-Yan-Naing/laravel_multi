@@ -95,21 +95,15 @@ class AdminController extends Controller
             'phone'              => 'required|string|max:255',
             'company_id'              => 'required',
             'department'              => 'required|string|max:255',
-            'password'          => 'required|string|min:8',
+            'password'          => 'nullable|string|min:8',
             'address'            => 'required|string',
         ]);
+        $employee->update($request->only('first_name','last_name','staffid','email','phone','company_id','department','address'));
 
-        $employee->update([
-            'first_name'      => $request->first_name,
-            'last_name'      => $request->last_name,
-            'staffid'      => $request->staffid,
-            'email'     => $request->email,
-            'phone'     => $request->phone,
-            'company_id'     => $request->company_id,
-            'department'     => $request->department,
-            'password'  => Hash::make($request->password),
-            'address'   => $request->address,
-        ]);
+        if($request->filled('password')){
+            $employee->update($request->only('password'));
+        }
+        return redirect()->route('listEmployee');
         return redirect()->route('dashboard');
     }
 

@@ -43,12 +43,12 @@ class AdminController extends Controller
         // {
             $employees = Employee::
             where('company_id',auth()->user()->company_id)
-            ->where ( 'staffid', 'LIKE', '%' . $filter . '%' )
-            ->where ( function($query) use ($filter) {
+            ->orwhere ( 'staffid', 'LIKE', '%' . $filter . '%' )
+            ->orwhere ( function($query) use ($filter) {
                 $query->Where(DB::raw('CONCAT(first_name," ",last_name)'), 'LIKE', '%' . $filter . '%');
             } )
-            ->where ( 'department', 'LIKE', '%' . $filter . '%' )
-            ->whereHas('company', function ($query) use ($request) {
+            ->orwhere ( 'department', 'LIKE', '%' . $filter . '%' )
+            ->orwhereHas('company', function ($query) use ($request) {
                 $query->where('name', 'like', "%{$request->filter}%");
             })
             ->paginate(10);

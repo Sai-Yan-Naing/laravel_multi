@@ -12,9 +12,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::view('/', 'adminLoginForm');
-// Route::view('/home', 'welcome');
 Route::get('/', function () {
     return redirect()->route('adminLoginForm');
 });
@@ -24,23 +21,12 @@ Route::get('/home', function () {
 Auth::routes();
 Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm')->name('adminLoginForm');
 Route::get('/login/employee', 'Auth\LoginController@showEmployeeLoginForm')->name('employeeLoginForm');
-// Route::get('/register/admin', 'Auth\RegisterController@showAdminRegisterForm');
-// Route::get('/register/employee', 'Auth\RegisterController@showEmployeeRegisterForm');
-
 Route::post('/login/admin', 'Auth\LoginController@adminLogin')->name('adminLogin');
 Route::post('/login/employee', 'Auth\LoginController@employeeLogin')->name('employeeLogin');
 Route::post('/register/admin', 'Auth\RegisterController@createAdmin')->name('createAdmin');
 Route::post('/register/employee', 'Auth\RegisterController@createEmployee')->name('createEmployee');
 
-
-Route::get('logout', function () {
-    Session()->flush();
-    auth()->logout();
-    return Redirect::to('/login/admin');
-})->name('logout');
-
 Route::group(['middleware' => 'auth:admin'],function () {
-    // Auth::routes();
     Route::get('/dashboard', 'AdminController@index')->name('dashboard');
     Route::get('/company', 'CompanyController@listCompany')->name('listCompany');
     Route::get('/company/create', 'CompanyController@createCompany')->name('createCompany');
@@ -58,16 +44,11 @@ Route::group(['middleware' => 'auth:admin'],function () {
     Route::delete('/adminemployee/{id}/delete', 'AdminController@deleteEmployee')->name('AdmindestoryEmployee');
     Route::get('/adminemployee/{id}/edit', 'AdminController@editEmployee')->name('adminEditEmployee');
     Route::put('/adminemployee/{id}/update', 'AdminController@updateEmployee')->name('adminUpdateEmployee');
-
-    // Route::post('/admin/logout','Auth\LoginController@logoutAdmin')->name('logoutAdmin');
-
     Route::get('/dashboard/export', 'AdminController@export')->name('export');
     });
 
     Route::group(['middleware' => 'auth:employee'], function () {
-        // Auth::routes();
         Route::get('/employee/dashboard', 'AdminController@employeeDashboard')->name('employeeDashboard');
         Route::get('/company-list', 'CompanyController@eListCompany')->name('eListCompany');
         Route::get('/employee-list', 'EmployeeController@eListEmployee')->name('eListEmployee');
-        // Route::post('/employee/logout','Auth\LoginController@logoutEmployee')->name('logoutEmployee');
     });
